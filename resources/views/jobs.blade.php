@@ -7,7 +7,7 @@
         <ul>
             <li>
                 <a href="/jobs/{{ $job['id'] }}" class="text-blue-500 hover:underline">
-                    <strong>{{ $job['title'] }}:</strong> Pays {{ $job['salary'] }} per {{ $job['pay-frequency'] }}
+                    <strong>{{ $job['title'] }}:</strong> Pays {{ $job['salary'] }} per {{ $job['pay_frequency'] }}
                 </a>
             </li>
         </ul>
