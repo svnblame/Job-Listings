@@ -12,19 +12,19 @@ class Job {
                 'id'     => 1,
                 'title'  => 'Director',
                 'salary' => '$50,000',
-                'pay-frequency' => 'year',
+                'pay_frequency' => 'year',
             ],
             [
                 'id'     => 2,
                 'title'  => 'Programmer',
                 'salary' => '$10,000',
-                'pay-frequency' => 'month',
+                'pay_frequency' => 'month',
             ],
             [
                 'id'     => 3,
                 'title'  => 'Teacher',
                 'salary' => '$40,000',
-                'pay-frequency' => 'year',
+                'pay_frequency' => 'year',
             ]
         ];
     }
