@@ -32,6 +32,8 @@ Develop: SQLite 3.37.2
 #### Run data migrations for local development
 `sail artisan migrate`
 
+To seed with test data run `sail artisan migrate --seed`
+
 ### Last Updated
 Author: Gene Kelley
 Date: Wed, Apr 24, 2024
