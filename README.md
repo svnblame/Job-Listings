@@ -15,6 +15,7 @@ Laravel 11.4.0
 ### Database
 
 Production: MySQL 8.0.36
+
 Develop: SQLite 3.37.2
 
 ### Developer Setup & Configuration
