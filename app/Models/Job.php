@@ -23,4 +23,9 @@ class Job extends Model {
     {
         return $this->belongsToMany(Tag::class, foreignPivotKey: 'job_listing_id');
     }
+
+    public function salaryUS(): string
+    {
+        return '$' . number_format(sprintf('%0.2f', $this->salary));
+    }
 }

@@ -14,7 +14,8 @@ Laravel 11.4.0
 
 ### Database
 
-MySQL 8.0.36
+Production: MySQL 8.0.36
+Develop: SQLite 3.37.2
 
 ### Developer Setup & Configuration
 
@@ -26,3 +27,10 @@ MySQL 8.0.36
 
 #### Spin up local development environment as a background process
 `vendor/bin/sail up -d`
+
+#### Run data migrations for local development
+`sail artisan migrate`
+
+### Last Updated
+Author: Gene Kelley
+Date: Wed, Apr 24, 2024
