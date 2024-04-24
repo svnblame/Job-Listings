@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Job extends Model {
+class JobListing extends Model {
     use HasFactory;
 
     protected $table = 'job_listings';
     protected $fillable = ['title', 'salary', 'pay_frequency'];
 
-    /* A Job "belongs to" an Employer */
+    /* A JobListing "belongs to" an Employer */
     public function employer(): BelongsTo
     {
         return $this->belongsTo(Employer::class);
