@@ -40,9 +40,7 @@ Route::get('/jobs/create', function () {
 });
 
 // Show : Display a specific job listing
-Route::get('/jobs/{id}', function ($id) {
-    $job = JobListing::find($id);
-
+Route::get('/jobs/{job}', function (JobListing $job) {
     return view('job_listings.show', ['job' => $job]);
 });
 
@@ -65,24 +63,20 @@ Route::post('/jobs', function () {
 });
 
 // Edit : Display form to edit a specific job listing
-Route::get('/jobs/{id}/edit', function ($id) {
-    $job = JobListing::find($id);
-
+Route::get('/jobs/{job}/edit', function (JobListing $job) {
     return view('job_listings.edit', ['job' => $job]);
 });
 
 // Update : Update a specific job listing
-Route::patch('/jobs/{id}', function ($id) {
+Route::patch('/jobs/{job}', function (JobListing $job) {
+
+    // TODO authorize (On hold until Auth is implemented) ...
+
     request()->validate([
         'title'         => ['required', 'string', 'min:3'],
         'salary'        => ['required', 'numeric'],
         'pay_frequency' => ['required', 'string'],
     ]);
-
-    // authorize (On hold until Auth is implemented) ...
-
-    // TODO Refactor to use Route Model Binding
-    $job = JobListing::findOrFail($id);
 
     $job->update([
         'title'         => request('title'),
@@ -94,11 +88,11 @@ Route::patch('/jobs/{id}', function ($id) {
 });
 
 // Destroy : Delete a specific job listing
-Route::delete('/jobs/{id}', function ($id) {
-    // authorize (On hold until Auth is implemented) ...
+Route::delete('/jobs/{job}', function (JobListing $job) {
 
-    JobListing::findOrFail($id)->delete();
+    // TODO authorize (On hold until Auth is implemented) ...
+
+    $job->delete();
 
     return redirect('/jobs');
-
 });
