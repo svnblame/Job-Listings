@@ -20,15 +20,32 @@ Route::get('/team', function () {
 });
 
 Route::get('/jobs', function () {
-    $jobs = JobListing::with('employer')->cursorPaginate(5);
+    $jobs = JobListing::with('employer')->latest()->cursorPaginate(5);
 
-    return view('jobs', [
+    return view('job_listings.index', compact('jobs'), [
         'jobs' => $jobs
     ]);
+});
+
+Route::get('/jobs/create', function () {
+    return view('job_listings.create');
 });
 
 Route::get('/jobs/{id}', function ($id) {
     $job = JobListing::find($id);
 
-    return view('job', ['job' => $job]);
+    return view('job_listings.show', ['job' => $job]);
+});
+
+Route::post('/jobs', function () {
+    // validation ...
+
+    JobListing::create([
+        'title'         => request('title'),
+        'salary'        => request('salary'),
+        'pay_frequency' => request('pay_frequency'),
+        'employer_id'   => 1   // hard-coding for now, until authentication is in place...
+    ]);
+
+    return redirect('/jobs');
 });
