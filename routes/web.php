@@ -26,3 +26,4 @@ Route::post('/register', [UserRegistrationController::class, 'store'])->name('au
 
 Route::get('/login', [UserLoginController::class, 'create'])->name('auth.login');
 Route::post('/login', [UserLoginController::class, 'store'])->name('auth.store');
+Route::post('/logout', [UserLoginController::class, 'destroy'])->name('auth.destroy');
