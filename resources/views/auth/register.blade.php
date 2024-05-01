@@ -35,7 +35,7 @@
 
                     <x-form-field>
                         <x-form-label for="password_confirmation">Confirm Password</x-form-label>
-                        <x-form-input name="password_confirmation" id="password_confirmation" type="password_confirmation" placeholder="Confirm Password" required />
+                        <x-form-input name="password_confirmation" id="password_confirmation" type="password" placeholder="Confirm Password" required />
                         <x-form-error name="password_confirmation" />
                     </x-form-field>
                 </div>
