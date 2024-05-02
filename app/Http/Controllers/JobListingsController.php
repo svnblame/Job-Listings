@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\JobListing;
-//use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class JobListingsController extends Controller
 {
     public function index()
     {
         $jobs = JobListing::with('employer')
-            ->latest()
-            ->cursorPaginate(5);
+            ->orderBy('id', 'desc')
+            ->simplePaginate(5);
 
         return view('job_listings.index', compact('jobs'), [
             'jobs' => $jobs
@@ -30,12 +32,14 @@ class JobListingsController extends Controller
 
     public function edit(JobListing $job)
     {
+        Gate::authorize('edit', $job);
+
         return view('job_listings.edit', ['job' => $job]);
     }
 
     public function update(JobListing $job)
     {
-        // TODO authorize (On hold until Auth is implemented) ...
+        Gate::authorize('edit', $job);
 
         request()->validate([
             'title'         => ['required', 'string', 'min:3'],
@@ -72,7 +76,7 @@ class JobListingsController extends Controller
 
     public function destroy(JobListing $job)
     {
-        // TODO authorize (On hold until Auth is implemented) ...
+        Gate::authorize('edit', $job);
 
         $job->delete();
 
