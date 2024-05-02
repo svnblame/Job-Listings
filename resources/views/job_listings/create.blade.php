@@ -24,7 +24,7 @@
                     </x-form-field>
 
                     <x-form-field>
-                        <x-form-label for="pay_frequency">Salary</x-form-label>
+                        <x-form-label for="pay_frequency">Pay Frequency</x-form-label>
                         <x-form-input name="pay_frequency" id="pay_frequency" placeholder="Pay Frequency i.e. year, month, week" />
                         <x-form-error name="pay_frequency" />
                     </x-form-field>
