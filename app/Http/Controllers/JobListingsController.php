@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\JobListingPosted;
 use App\Models\JobListing;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class JobListingsController extends Controller
 {
@@ -64,12 +64,16 @@ class JobListingsController extends Controller
             'pay_frequency' => ['required', 'string'],
         ]);
 
-        JobListing::create([
+        $jobListing = JobListing::create([
             'title'         => request('title'),
             'salary'        => request('salary'),
             'pay_frequency' => request('pay_frequency'),
             'employer_id'   => 1   // hard-coding for now, until authentication is in place...
         ]);
+
+        Mail::to($jobListing->employer->user)->send(
+            new JobListingPosted($jobListing)
+        );
 
         return redirect('/jobs');
     }
