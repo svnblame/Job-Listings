@@ -3,8 +3,18 @@
 use App\Http\Controllers\JobListingsController;
 use App\Http\Controllers\UserLoginController;
 use App\Http\Controllers\UserRegistrationController;
+use App\Jobs\TranslateJobListing;
 use App\Models\JobListing;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/test', function () {
+
+    $jobListing = JobListing::first();
+
+    TranslateJobListing::dispatch($jobListing);
+
+    return 'Done';
+});
 
 // Display home page
 Route::view('/', 'home');
@@ -23,7 +33,8 @@ Route::get('/jobs', [JobListingsController::class, 'index'])
     ->name('jobs.index');
 
 Route::get('/jobs/create', [JobListingsController::class, 'create'])
-    ->name('jobs.create');
+    ->name('jobs.create')
+    ->middleware('auth');
 
 Route::post('/jobs', [JobListingsController::class, 'store'])
     ->name('jobs.store')

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Mail;
 
 class JobListingsController extends Controller
 {
+    const MODULE = 'job_listings';
+
     public function index()
     {
         $jobs = JobListing::with('employer')
@@ -42,14 +44,14 @@ class JobListingsController extends Controller
         Gate::authorize('edit', $job);
 
         request()->validate([
-            'title'         => ['required', 'string', 'min:3'],
-            'salary'        => ['required', 'numeric'],
+            'title' => ['required', 'string', 'min:3'],
+            'salary' => ['required', 'numeric'],
             'pay_frequency' => ['required', 'string'],
         ]);
 
         $job->update([
-            'title'         => request('title'),
-            'salary'        => request('salary'),
+            'title' => request('title'),
+            'salary' => request('salary'),
             'pay_frequency' => request('pay_frequency'),
         ]);
 
@@ -58,22 +60,45 @@ class JobListingsController extends Controller
 
     public function store()
     {
+        // @todo Refactor this... Just prototyping for now... Likely put contextual logging into middleware.
+        $context = [
+            'event' => 'stored.job_listing',
+            'module' => self::MODULE,
+        ];
+
         request()->validate([
-            'title'         => ['required', 'string', 'min:3'],
-            'salary'        => ['required', 'numeric'],
+            'title' => ['required', 'string', 'min:3'],
+            'salary' => ['required', 'numeric'],
             'pay_frequency' => ['required', 'string'],
         ]);
 
         $jobListing = JobListing::create([
-            'title'         => request('title'),
-            'salary'        => request('salary'),
+            'title' => request('title'),
+            'salary' => request('salary'),
             'pay_frequency' => request('pay_frequency'),
-            'employer_id'   => 1   // hard-coding for now, until authentication is in place...
+            'employer_id' => 221,
         ]);
 
-        Mail::to($jobListing->employer->user)->send(
+        $context = array_merge($context, [
+            'job_listing_id' => $jobListing->id,
+            'title'          => $jobListing->title,
+            'created_by'     => auth()->user()->email,
+        ]);
+
+        logger('Job Listing Stored', $context);
+
+        Mail::to($jobListing->employer->user)->queue(
             new JobListingPosted($jobListing)
         );
+
+        $context = [
+            'event'          => 'notified.job_listing.created',
+            'module'         => self::MODULE,
+            'job_listing_id' => $jobListing->id,
+            'sent_to'        => auth()->user()->email,
+        ];
+
+        logger('Job Listing Created Notification Sent', $context);
 
         return redirect('/jobs');
     }
